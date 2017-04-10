@@ -11,14 +11,14 @@ import com.jayway.restassured.specification.RequestSpecification;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import io.undertow.Undertow;
-import io.undertow.server.handlers.ResponseCodeHandler;
+import io.github.tuxmonteiro.planclab.tests.services.SimulatedBackendService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -40,9 +40,12 @@ public class StepDefs {
     private RequestSpecification request;
     private ValidatableResponse response;
 
+    @Autowired
+    private SimulatedBackendService backendService;
+
     @PostConstruct
     public void init() {
-        Undertow.builder().addHttpListener(backendPort, "0.0.0.0", ResponseCodeHandler.HANDLE_200).build().start();
+        backendService.setBackendPort(backendPort).start();
     }
 
     @Before
