@@ -31,7 +31,7 @@ public class RouterService {
     public void run() {
         logger.info(this.getClass().getSimpleName() + " started");
 
-        final Undertow undertow =Undertow.builder().addHttpListener(8000, "0.0.0.0", rootHandler)
+        final Undertow undertow = Undertow.builder().addHttpListener(8000, "0.0.0.0", rootHandler)
                 .setIoThreads(4)
                 .setWorkerThreads(4 * 8)
                 .setBufferSize(16384)
