@@ -129,6 +129,7 @@ public class PathGlobHandler implements HttpHandler {
 
         @Override
         public int compareTo(final PathOrdered other) {
+            if (other == null) return 1;
             return this.order < other.order ? -1 : this.order > other.order ? 1 : 0;
         }
     }
