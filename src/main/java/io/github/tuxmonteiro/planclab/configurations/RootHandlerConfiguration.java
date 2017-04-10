@@ -1,7 +1,6 @@
 package io.github.tuxmonteiro.planclab.configurations;
 
 import io.undertow.server.HttpHandler;
-import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.NameVirtualHostHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,19 +20,11 @@ public class RootHandlerConfiguration {
 
     @Bean("rootHandler")
     public HttpHandler rootHandler() {
-        return new HttpHandler() {
-
-            @Override
-            public void handleRequest(HttpServerExchange exchange) throws Exception {
-                try {
-                    nameVirtualHostHandler.handleRequest(exchange);
-                } catch (Exception e) {
-                    serviceUnavailableHandler().handleRequest(exchange);
-                }
-            }
-
-            private HttpHandler serviceUnavailableHandler() {
-                return exchange -> exchange.setStatusCode(SERVICE_UNAVAILABLE);
+        return exchange -> {
+            try {
+                nameVirtualHostHandler.handleRequest(exchange);
+            } catch (Exception e) {
+                exchange.setStatusCode(SERVICE_UNAVAILABLE);
             }
         };
     }
